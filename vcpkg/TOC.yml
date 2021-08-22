@@ -260,6 +260,8 @@
     href: contributing/maintainer-guide.md
   - name: CMake Style Guide
     href: contributing/cmake-guidelines.md
+  - name: Wrapping CMake Find Modules
+    href: contributing/wrapper-guidelines.md
   - name: PR Review Checklist
     href: contributing/pr-review-checklist.md
   - name: Microsoft/vcpkg Release Process
