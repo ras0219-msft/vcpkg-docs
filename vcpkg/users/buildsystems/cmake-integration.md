@@ -6,11 +6,17 @@ ms.date: 11/30/2022
 
 # CMake Integration
 
-See [Installing and Using Packages Example: sqlite](../../examples/installing-and-using-packages.md) for a fully worked example using CMake.
+vcpkg has first-class support for being used from CMake projects. Users must include [a toolchain file](#cmake_toolchain_file) from the vcpkg distribution when configuring their project and can then use standard CMake functions like `find_package()`, `find_path()`, and `find_library()` to get their dependencies from vcpkg.
 
-## `CMAKE_TOOLCHAIN_FILE`
+```console
+cmake .. -DCMAKE_TOOLCHAIN_FILE=<vcpkg-root>/scripts/buildsystems/vcpkg.cmake
+```
 
-Projects configured to use the vcpkg toolchain file (via the CMake setting `CMAKE_TOOLCHAIN_FILE`) can find libraries from vcpkg using the standard CMake functions: `find_package()`, `find_path()`, and `find_library()`.
+In [Manifest Mode](../manifests.md), vcpkg will build and install any needed dependencies into the build directory as part of the configure step.
+
+See [Installing and Using Packages Example: sqlite](../../examples/installing-and-using-packages.md) for a fully worked example.
+
+## Setting CMAKE_TOOLCHAIN_FILE
 
 ```console
 cmake ../my/project -DCMAKE_TOOLCHAIN_FILE=<vcpkg-root>/scripts/buildsystems/vcpkg.cmake
@@ -18,25 +24,27 @@ cmake ../my/project -DCMAKE_TOOLCHAIN_FILE=<vcpkg-root>/scripts/buildsystems/vcp
 
 Since version 3.21, CMake will use the environment variable [`CMAKE_TOOLCHAIN_FILE`](https://cmake.org/cmake/help/latest/envvar/CMAKE_TOOLCHAIN_FILE.html) as the default value for `CMAKE_TOOLCHAIN_FILE`.
 
-- **cmd**
+### [Cmd](#tab/cmd)
 
-    ```cmd
-    set CMAKE_TOOLCHAIN_FILE=<vcpkg-root>/scripts/buildsystems/vcpkg.cmake
-    ```
+  ```cmd
+  set CMAKE_TOOLCHAIN_FILE=<vcpkg-root>/scripts/buildsystems/vcpkg.cmake
+  ```
 
-- **Powershell**
+### [PowerShell](#tab/powershell)
 
-    ```powershell
-    $env:CMAKE_TOOLCHAIN_FILE="<vcpkg-root>/scripts/buildsystems/vcpkg.cmake"
-    ```
+```powershell
+$env:CMAKE_TOOLCHAIN_FILE="<vcpkg-root>/scripts/buildsystems/vcpkg.cmake"
+```
 
-- **bash**
+### [Bash](#tab/bash)
 
-    ```sh
-    export CMAKE_TOOLCHAIN_FILE=<vcpkg-root>/scripts/buildsystems/vcpkg.cmake
-    ```
+```sh
+export CMAKE_TOOLCHAIN_FILE=<vcpkg-root>/scripts/buildsystems/vcpkg.cmake
+```
 
-vcpkg does not automatically add any include or links paths into your project. To use a header-only library you can use `find_path()` which will correctly work on all platforms:
+---
+
+vcpkg does not automatically add any include or links paths into your project. To use a header-only library you can use `find_path()`:
 
 ```cmake
 # To find and use catch2
